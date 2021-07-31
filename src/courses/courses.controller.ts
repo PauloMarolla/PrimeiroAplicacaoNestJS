@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { CoursesService } from './courses.service';
 
 @Controller('courses')
@@ -7,28 +7,27 @@ export class CoursesController {
 
   }
   @Get()
-  index(@Res() response) {
-    return response.status(200).send(['Matematica', 'Portugues', 'Artes']);
+  index() {
+    return this.coursesService.index();
   }
 
   @Get(':id')
   show(@Param('id') id: string) {
-    return `Curso ${id}`;
+    return this.coursesService.show(id);
   }
 
   @Post()
-  @HttpCode(HttpStatus.NO_CONTENT)
   store(@Body() body) {
-    return body;
+    return this.coursesService.create(body);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() body) {
-    return `Atualização do Curso ${id}`
+    return this.coursesService.update(id, body);
   }
 
   @Delete(':id')
   delete(@Param('id') id: string) {
-    return `Curso ${id} deletado`;
+    return this.coursesService.delete(id);
   }
 }

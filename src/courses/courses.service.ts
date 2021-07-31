@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Course } from './entities/course.entity';
 
 @Injectable()
@@ -17,24 +17,28 @@ export class CoursesService {
   }
 
   show(id: string) {
-    this.courses.find(course => course.id === Number(id));
+    const courses = this.courses.find(course => course.id === Number(id));
+
+    if(!courses) {
+      throw new HttpException(`Course ID ${id} not found`, HttpStatus.NOT_FOUND) 
+    }
   }
 
   create(createCourseDto: any) {
-    this.courses.push(createCourseDto);
+    return this.courses.push(createCourseDto);
   }
 
   update(id: string, updateCourseDto: any) {
     const indexCourse = this.courses.findIndex(course => course.id === Number(id));
 
-    this.courses[indexCourse] = updateCourseDto;
+    return this.courses[indexCourse] = updateCourseDto;
   }
 
   delete(id: string) {
     const indexCourse = this.courses.findIndex(course => course.id === Number(id));
 
     if(indexCourse  >= 0) {
-      this.courses.splice(indexCourse, 1);
+      return this.courses.splice(indexCourse, 1);
     }
   }
 }
