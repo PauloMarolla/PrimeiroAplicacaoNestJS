@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsString } from 'class-validator';
+import { Tag } from '../entities/tag.entity';
 
 export class CreateCoursesDto {
   @IsString()
@@ -8,6 +9,6 @@ export class CreateCoursesDto {
   @IsString()
   readonly description: string;
 
-  @IsString({each: true})
+  @IsString({ each: true })
   readonly tags: string[];
 }
